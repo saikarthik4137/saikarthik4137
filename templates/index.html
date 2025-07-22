@@ -1,47 +1,84 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Sri Annamalaiyar Jewels - Gold Calculator</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb'); /* Change to a jewellery-themed URL or local path */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #000;
+    }
+
+    .overlay {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 2rem;
+      border-radius: 1rem;
+    }
+
+    #copy-btn {
+      font-size: 1.2rem;
+      padding: 1rem;
+    }
+  </style>
 </head>
 <body>
   <div class="container py-5">
-    <h2 class="text-center mb-4"> Sri Annamalaiyar Jewels Manufacturers - Trichy </h2>
-    <h3 class="text-center mb-4"> Contact - 9965241162 , 8144444588 </h3>
-    <form method="POST" class="card p-4 shadow">
-      <div class="mb-3">
-        <label class="form-label">Gold Weight (g):</label>
-        <input type="number" step="0.010" name="weight" class="form-control" required value="{{ request.form.weight or '' }}">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Wastage Percentage (%):</label>
-        <input type="number" step="0.010" name="wastage" class="form-control" required value="{{ request.form.wastage or '' }}">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Today Gold Rate (₹/gram):</label>
-        <input type="number" step="0.010" name="rate" class="form-control" required value="{{ request.form.rate or '' }}">
-      </div>
-      <button type="submit" class="btn btn-warning w-100">Calculate</button>
-    </form> 
+    <div class="overlay">
+      <h2 class="text-center mb-4"> Sri Annamalaiyar Jewels Manufacturers - Trichy </h2>
+      <h3 class="text-center mb-4"> Contact - 9965241162 , 8144444588 </h3>
+      <form method="POST" class="card p-4 shadow">
+        <div class="mb-3">
+          <label class="form-label">Gold Weight (g):</label>
+          <input type="number" step="0.010" name="weight" class="form-control" required value="{{ request.form.weight or '' }}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Wastage Percentage (%):</label>
+          <input type="number" step="0.010" name="wastage" class="form-control" required value="{{ request.form.wastage or '' }}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Today Gold Rate (₹/gram):</label>
+          <input type="number" step="0.010" name="rate" class="form-control" required value="{{ request.form.rate or '' }}">
+        </div>
+        <button type="submit" class="btn btn-warning w-100">Calculate</button>
+      </form> 
 
-    {% if result %}
-    <div class="card mt-5 p-4 shadow-sm">
-      {% if result.error %}
-        <p class="text-danger">{{ result.error }}</p>
-      {% else %}
-        <h4 class="mb-3"> Sri Annamalaiyar Jewels Manufacturers </h4>
-        <h4 class="mb-3"> Contact - 9965241162 , 8144444588 </h4>
-        <p>🗓️ Date: <strong>{{ today }}</strong></p>
-        <p>📈 Today Gold Price: ₹<strong>{{ result.rate }}</strong></p>
-        <p>⚖️ Jewel Weight: <strong>{{ result.weight }} g</strong></p>
-        <p>📏 Wastage: <strong>{{ result.wastage }}%</strong></p>
-        <hr>
-        <p> Total Jewel Price: <strong>₹{{ result.total_price }}</strong></p>
+      {% if result %}
+      <div class="card mt-5 p-4 shadow-sm" id="result-card">
+        {% if result.error %}
+          <p class="text-danger">{{ result.error }}</p>
+        {% else %}
+          <h4 class="mb-3"> Sri Annamalaiyar Jewels Manufacturers </h4>
+          <h4 class="mb-3"> Contact - 9965241162 , 8144444588 </h4>
+          <p>🗓️ Date: <strong>{{ today }}</strong></p>
+          <p>📈 Today Gold Price: ₹<strong>{{ result.rate }}</strong></p>
+          <p>⚖️ Jewel Weight: <strong>{{ result.weight }} g</strong></p>
+          <p>📏 Wastage: <strong>{{ result.wastage }}%</strong></p>
+          <p>➕ Wastage in Grams: <strong>{{ result.wastage_grams }} g</strong></p>
+          <p>⚖️ Total Weight (Gold + Wastage): <strong>{{ result.total_weight }} g</strong></p>
+          <hr>
+          <p>💰 Total Jewel Price: <strong>₹{{ result.total_price }}</strong></p>
+          <button id="copy-btn" class="btn btn-primary mt-3 w-100" onclick="copyResult()">📋 Copy Result</button>
+        {% endif %}
+      </div>
       {% endif %}
     </div>
-    {% endif %}
   </div>
+
+  <script>
+    function copyResult() {
+      const resultCard = document.getElementById("result-card");
+      const temp = document.createElement("textarea");
+      temp.value = resultCard.innerText;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand("copy");
+      document.body.removeChild(temp);
+      alert("Copied to clipboard!");
+    }
+  </script>
 </body>
 </html>
