@@ -282,7 +282,10 @@ pyobjc-framework-FSEvents @ file:///Users/builder/cbouss/perseverance-python-bui
 pyodbc @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_34pbsruafo/croot/pyodbc_1737479629856/work
 pyOpenSSL @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_fc2tw3ggkp/croot/pyopenssl_1741343830893/work
 pyparsing @ file:///Users/builder/cbouss/buildout/croot/pyparsing_1735850351026/work
+<<<<<<< HEAD
 PyPDF2==3.0.1
+=======
+>>>>>>> parent of f35ea1d (Cleaned requirements.txt for deployment)
 PyQt5==5.15.10
 PyQt5_sip @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_2fujrnx99b/croot/pyqt-split_1736540539550/work/pyqt_sip
 PyQtWebEngine==5.15.6
