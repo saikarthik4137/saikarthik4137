@@ -9,20 +9,18 @@ def index():
     today = datetime.now().strftime("%d/%m/%Y")
     if request.method == 'POST':
         try:
-            weight = float(request.form['weight'])  # Gold grams
-            wastage = float(request.form['wastage'])  # Wastage percentage
-            rate = float(request.form['rate'])  # Gold rate per gram
-
+            weight = float(request.form['weight'])
+            wastage = float(request.form['wastage'])
+            rate = float(request.form['rate'])
             wastage_grams = weight * (wastage / 100)
-            total_weight_grams = weight + wastage_grams
-            total_price = round(total_weight_grams * rate, 2)
-
+            total_weight = weight + wastage_grams
+            total_price = round(total_weight * rate, 2)
             result = {
                 'weight': weight,
                 'wastage': wastage,
                 'rate': rate,
                 'wastage_grams': round(wastage_grams, 2),
-                'total_weight_grams': round(total_weight_grams, 2),  # Updated key
+                'total_weight': round(total_weight, 2),
                 'total_price': f"{total_price:,.2f}"
             }
         except ValueError:
