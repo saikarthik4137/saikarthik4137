@@ -12,10 +12,12 @@ def index():
             weight = float(request.form['weight'])
             wastage = float(request.form['wastage'])
             rate = float(request.form['rate'])
+            customer = request.form.get('customer', '').strip()
             wastage_grams = weight * (wastage / 100)
             total_weight = weight + wastage_grams
             total_price = round(total_weight * rate, 2)
             result = {
+                'customer': customer,
                 'weight': weight,
                 'wastage': wastage,
                 'rate': rate,
