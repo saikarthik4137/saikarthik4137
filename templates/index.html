@@ -59,6 +59,7 @@
           <input type="number" step="0.010" name="rate" class="form-control" required value="{{ request.form.rate or '' }}">
         </div>
         <button type="submit" class="btn btn-warning w-100">Calculate</button>
+        <button type="button" class="btn btn-primary w-100 mt-2" onclick="resetForm()">Reset</button>
       </form> 
 
       {% if result %}
@@ -79,7 +80,7 @@
           <p>⚖️ Total Weight (Gold + Wastage): <strong>{{ result.total_weight }} g</strong></p>
           <hr>
           <p>💰 Total Jewel Price: <strong>₹{{ result.total_price }}</strong></p>
-          <button id="copy-btn" class="btn btn-primary mt-3 w-100" onclick="copyResult()">📋 Thanks</button>
+          <button id="copy-btn" class="btn btn-primary mt-3 w-100" onclick="copyResult()">🙏Thanks & Welcome 🌺</button>
         {% endif %}
       </div>
       {% endif %}
@@ -96,6 +97,14 @@
       document.execCommand("copy");
       document.body.removeChild(temp);
       alert("Copied to clipboard!");
+    }
+
+    function resetForm() {
+      const form = document.querySelector('form');
+      form.reset();
+      form.querySelectorAll('input').forEach(input => input.value = '');
+      const resultCard = document.getElementById("result-card");
+      if (resultCard) resultCard.remove();
     }
   </script>
 </body>
