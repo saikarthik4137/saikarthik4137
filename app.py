@@ -17,14 +17,25 @@ def index():
             wastage = float(request.form['wastage'])
             rate = float(request.form['rate'])
             customer = request.form.get('customer', '').strip()
+
+            # Optional: making charge
+            making_charge_input = request.form.get('making_charge', '').strip()
+            making_charge = float(making_charge_input) if making_charge_input else 0.0
+
+            # Compute wastage and total weight
             wastage_grams = weight * (wastage / 100)
             total_weight = weight + wastage_grams
-            total_price = round(total_weight * rate, 2)
+
+            # Compute total price
+            base_price = total_weight * rate
+            total_price = round(base_price + making_charge, 2)
+
             result = {
                 'customer': customer,
                 'weight': weight,
                 'wastage': wastage,
                 'rate': rate,
+                'making_charge': making_charge if making_charge else None,
                 'wastage_grams': round(wastage_grams, 2),
                 'total_weight': round(total_weight, 2),
                 'total_price': f"{total_price:,.2f}"
