@@ -18,6 +18,8 @@ def index():
             rate = float(request.form['rate'])
             customer = request.form.get('customer', '').strip()
 
+            product = request.form.get('product', '').strip()
+
             # Optional: making charge
             making_charge_input = request.form.get('making_charge', '').strip()
             making_charge = float(making_charge_input) if making_charge_input else 0.0
@@ -32,6 +34,7 @@ def index():
 
             result = {
                 'customer': customer,
+                'product': product,
                 'weight': weight,
                 'wastage': wastage,
                 'rate': rate,

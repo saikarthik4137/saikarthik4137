@@ -25,7 +25,7 @@
     .form-label {
       font-weight: 600;
     }
-    input.form-control {
+    input.form-control, select.form-select {
       border: 2px solid #333;
       border-radius: 6px;
       padding: 10px;    
@@ -38,10 +38,28 @@
       <h2 class="text-center mb-4"> Sri Annamalaiyar Jewels Manufacturers - Trichy </h2>
       <h3 class="text-center mb-4"> Contact - 9965241162 , 8144444588 </h3>
       <form method="POST" class="card p-4 shadow">
+        
         <div class="mb-3">
           <label class="form-label">Customer Name:</label>
           <input type="text" name="customer" class="form-control" required value="{{ request.form.customer or '' }}">
         </div>
+
+        <!-- New Product Name Dropdown -->
+        <div class="mb-3">
+          <label class="form-label">Product Name:</label>
+          <select name="product_name" class="form-select">
+            <option value="">-- Select Product --</option>
+            <option value="Ring" {% if request.form.get('product_name') == 'Ring' %}selected{% endif %}>Ring</option>
+            <option value="Chain" {% if request.form.get('product_name') == 'Chain' %}selected{% endif %}>Chain</option>
+            <option value="Dollar" {% if request.form.get('product_name') == 'Dollar' %}selected{% endif %}>Dollar</option>
+            <option value="Earrings" {% if request.form.get('product_name') == 'Earrings' %}selected{% endif %}>Earrings</option>
+            <option value="Necklace" {% if request.form.get('product_name') == 'Necklace' %}selected{% endif %}>Necklace</option>
+            <option value="Mangalyam Thali" {% if request.form.get('product_name') == 'Thali' %}selected{% endif %}>Thali</option>
+            <option value="Bracelet" {% if request.form.get('product_name') == 'Bracelet' %}selected{% endif %}>Bracelet</option>
+            <option value="Bangles" {% if request.form.get('product_name') == 'Bracelet' %}selected{% endif %}>Bangles</option>
+          </select>
+        </div>
+
         <div class="mb-3">
           <label class="form-label">Gold Weight (g):</label>
           <input type="number" step="0.010" name="weight" class="form-control" required value="{{ request.form.weight or '' }}">
@@ -72,6 +90,9 @@
           <h4 class="mb-3"> Contact - 9965241162 , 8144444588 </h4>
           {% if result.customer %}
             <p>👤 Customer: <strong>{{ result.customer }}</strong></p>
+          {% endif %}
+          {% if request.form.get('product_name') %}
+            <p>📦 Product: <strong>{{ request.form.get('product_name') }}</strong></p>
           {% endif %}
           <p>🗓️ Date: <strong>{{ today }}</strong></p>
           <p>📈 Today Gold Price: ₹<strong>{{ result.rate }}</strong></p>
@@ -106,7 +127,7 @@
     function resetForm() {
       const form = document.querySelector('form');
       form.reset();
-      form.querySelectorAll('input').forEach(input => input.value = '');
+      form.querySelectorAll('input, select').forEach(input => input.value = '');
       const resultCard = document.getElementById("result-card");
       if (resultCard) resultCard.remove();
     }
