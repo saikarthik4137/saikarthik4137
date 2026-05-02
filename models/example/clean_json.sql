@@ -1,7 +1,20 @@
-select
-    try_cast(r.data:id::string as int) as id,
-    try_cast(r.data:name::string as string) as name,
-    try_cast(r.data:amount::string as number) as amount,
-    try_cast(r.data:is_active::string as boolean) as is_active,
-    try_cast(r.data:created_at::string as timestamp) as created_at
-from SAI.PUBLIC.raw_json_data r
+{{ config(materialized='table') }}
+
+SELECT
+    TRY_TO_NUMBER(r.data:id::string) AS id,
+    r.data:name::string AS name,
+    TRY_TO_NUMBER(r.data:amount::string) AS amount,
+
+    CASE 
+        WHEN LOWER(r.data:is_active::string) IN ('true', 'yes') THEN TRUE
+        WHEN LOWER(r.data:is_active::string) = 'false' THEN FALSE
+        ELSE NULL
+    END AS is_active,
+
+    TRY_TO_TIMESTAMP(r.data:created_at::string) AS created_at
+
+FROM {{ source('raw_layer', 'raw_json_data') }} r
+
+WHERE 
+    TRY_TO_NUMBER(r.data:id::string) IS NOT NULL
+    AND TRY_TO_NUMBER(r.data:amount::string) IS NOT NULL
