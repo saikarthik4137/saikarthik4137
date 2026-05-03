@@ -1,4 +1,8 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='incremental',
+    unique_key='id',
+    incremental_strategy='merge'
+) }}
 
 SELECT
     TRY_TO_NUMBER(r.data:id::string) AS id,
@@ -11,10 +15,10 @@ SELECT
         ELSE NULL
     END AS is_active,
 
-    TRY_TO_TIMESTAMP(r.data:created_at::string) AS created_at
+    TRY_TO_TIMESTAMP(r.data:created_at::string) AS created_at,
+
+    CURRENT_TIMESTAMP() AS updated_at
 
 FROM {{ source('raw_layer', 'raw_json_data') }} r
 
-WHERE 
-    TRY_TO_NUMBER(r.data:id::string) IS NOT NULL
-    AND TRY_TO_NUMBER(r.data:amount::string) IS NOT NULL
+WHERE TRY_TO_NUMBER(r.data:id::string) IS NOT NULL
