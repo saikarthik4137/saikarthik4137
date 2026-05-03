@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: raw_layer
+    database: SAI        # your database
+    schema: PUBLIC      # your schema
+    tables:
+      - name: raw_json_data
