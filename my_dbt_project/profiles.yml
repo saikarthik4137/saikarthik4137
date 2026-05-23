@@ -1,0 +1,18 @@
+user:
+  outputs:
+    default:
+      account: UAROSYK-DZ32665
+      auth_type: password
+      client_session_keep_alive: false
+      connect_retries: 3
+      connect_timeout: 30
+      database: SALES_DB
+      password: Namashivya@5454
+      retry_on_database_errors: true
+      role: null
+      schema: dbt_skarthik
+      threads: 6
+      type: snowflake
+      user: SAIKARTHIK
+      warehouse: SAI_WH
+  target: default
