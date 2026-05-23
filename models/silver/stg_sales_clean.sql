@@ -12,7 +12,12 @@ WITH clean_data AS (
         item_id,
         price,
         total_value,
-        RAW_LOADED_AT
+
+        CURRENT_TIMESTAMP() AS loaded_at,
+        CURRENT_TIMESTAMP() AS updated_at,
+        CURRENT_TIMESTAMP() AS pipeline_run_at,
+
+        raw_loaded_at
 
     FROM {{ ref('stg_raw_json_data') }}
 
