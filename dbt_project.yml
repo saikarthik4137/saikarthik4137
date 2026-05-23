@@ -22,6 +22,9 @@ clean-targets:
 models:
   my_dbt_project:
 
+    +database: SALES_DB
+    +schema: PUBLIC
+
     staging:
       +materialized: view
 
