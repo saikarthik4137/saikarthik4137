@@ -1,6 +1,5 @@
 {{ config(
-    materialized='table',
-    on_schema_change='sync_all_columns'
+    materialized='table'
 ) }}
 
 WITH clean_data AS (

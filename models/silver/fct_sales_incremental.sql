@@ -16,9 +16,9 @@ SELECT
     price,
     total_value,
 
-    CURRENT_TIMESTAMP() AS loaded_at,
-    CURRENT_TIMESTAMP() AS updated_at,
-    CURRENT_TIMESTAMP() AS pipeline_run_at,
+    loaded_at,
+    updated_at,
+    pipeline_run_at,
 
     raw_loaded_at
 
