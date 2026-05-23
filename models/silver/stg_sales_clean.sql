@@ -23,13 +23,6 @@ WITH clean_data AS (
 
     FROM {{ ref('stg_raw_json_data') }}
 
-    WHERE id IS NOT NULL
-      AND name IS NOT NULL
-      AND amount IS NOT NULL
-      AND amount >= 0
-      AND created_at IS NOT NULL
-      AND price IS NOT NULL
-      AND price >= 0
 ),
 
 dedup AS (
