@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+
+  - name: sales_db
+    database: SALES_DB
+    schema: PUBLIC
+
+    tables:
+      - name: raw_json_data
