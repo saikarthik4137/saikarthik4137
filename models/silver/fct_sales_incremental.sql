@@ -13,15 +13,20 @@ SELECT
     item_id,
     price,
     total_value,
-    RAW_LOADED_AT
+
+    CURRENT_TIMESTAMP() AS loaded_at,
+    CURRENT_TIMESTAMP() AS updated_at,
+    CURRENT_TIMESTAMP() AS pipeline_run_at,
+
+    raw_loaded_at
 
 FROM {{ ref('stg_sales_clean') }}
 
 {% if is_incremental() %}
 
-WHERE RAW_LOADED_AT >
+WHERE raw_loaded_at >
 (
-    SELECT MAX(RAW_LOADED_AT)
+    SELECT COALESCE(MAX(raw_loaded_at), '1900-01-01')
     FROM {{ this }}
 )
 
