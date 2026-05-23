@@ -1,6 +1,7 @@
 {{ config(
     materialized='incremental',
-    unique_key='id',
+    unique_key=['id','item_id'],
+    incremental_strategy='delete+insert',
     on_schema_change='sync_all_columns'
 ) }}
 
