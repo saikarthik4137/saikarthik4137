@@ -1,4 +1,7 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    on_schema_change='sync_all_columns'
+) }}
 
 WITH clean_data AS (
 
@@ -36,7 +39,7 @@ dedup AS (
 
         ROW_NUMBER() OVER (
             PARTITION BY id, item_id
-            ORDER BY created_at DESC
+            ORDER BY raw_loaded_at DESC
         ) AS rn
 
     FROM clean_data
