@@ -3,6 +3,7 @@
 WITH flattened_data AS (
 
     SELECT
+
         RAW_DATA:id::INT AS id,
 
         TRIM(RAW_DATA:name::STRING) AS name,
@@ -41,6 +42,7 @@ WITH flattened_data AS (
 
     FROM {{ source('sales_db', 'raw_json_data') }},
     LATERAL FLATTEN(INPUT => RAW_DATA:nested:items) f
+
 ),
 
 clean_data AS (
@@ -54,6 +56,7 @@ clean_data AS (
       AND created_at IS NOT NULL
       AND price IS NOT NULL
       AND price >= 0
+
 ),
 
 dedup AS (
@@ -64,6 +67,7 @@ dedup AS (
             ORDER BY created_at DESC
         ) AS rn
     FROM clean_data
+
 )
 
 SELECT
