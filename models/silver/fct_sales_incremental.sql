@@ -18,7 +18,6 @@ WITH source_data AS (
         updated_at,
         pipeline_run_at,
         raw_loaded_at,
-        file_name,
 
         ROW_NUMBER() OVER (
             PARTITION BY id, item_id
@@ -49,8 +48,7 @@ SELECT
     loaded_at,
     updated_at,
     pipeline_run_at,
-    raw_loaded_at,
-    file_name
+    raw_loaded_at
 
 FROM final_data
 
