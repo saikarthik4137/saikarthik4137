@@ -38,7 +38,7 @@ WITH flattened_data AS (
             CURRENT_TIMESTAMP()
         ) AS raw_loaded_at,
 
-        METADATA$FILENAME AS file_name
+        NULL AS file_name
 
     FROM {{ source('sales_db', 'raw_json_data') }},
          LATERAL FLATTEN(INPUT => RAW_DATA:nested:items) f
