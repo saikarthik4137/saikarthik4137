@@ -1,28 +1,40 @@
-WITH flattened_data AS (
+{{ config(materialized='table') }}
+
+WITH source_data AS (
 
     SELECT
-        SRC:id::INT AS id,
+        RAW_DATA,
+        RAW_LOADED_AT
+    FROM {{ source('sales_db', 'raw_json_data') }}
 
-        TRIM(SRC:name::STRING) AS name,
+),
 
-        TRY_CAST(SRC:amount::STRING AS FLOAT) AS amount,
+flattened_data AS (
 
-        TRY_TO_DATE(SRC:created_at::STRING) AS created_at,
+    SELECT
+
+        s.RAW_DATA:id::INT AS id,
+
+        TRIM(s.RAW_DATA:name::STRING) AS name,
+
+        TRY_CAST(s.RAW_DATA:amount::STRING AS FLOAT) AS amount,
+
+        TRY_TO_DATE(s.RAW_DATA:created_at::STRING) AS created_at,
 
         CASE
-            WHEN LOWER(SRC:is_active::STRING) IN ('true', 'yes')
+            WHEN LOWER(s.RAW_DATA:is_active::STRING) IN ('true', 'yes')
                 THEN TRUE
             ELSE FALSE
         END AS is_active,
 
-        SRC:extra_field:unexpected::STRING AS unexpected,
+        s.RAW_DATA:extra_field:unexpected::STRING AS unexpected,
 
         f.VALUE:item_id::INT AS item_id,
 
         TRY_TO_NUMBER(f.VALUE:price::STRING) AS price,
 
         TRY_TO_NUMBER(f.VALUE:price::STRING)
-        * TRY_CAST(SRC:amount::STRING AS FLOAT) AS total_value,
+            * TRY_CAST(s.RAW_DATA:amount::STRING AS FLOAT) AS total_value,
 
         CURRENT_TIMESTAMP() AS loaded_at,
 
@@ -31,14 +43,15 @@ WITH flattened_data AS (
         CURRENT_TIMESTAMP() AS pipeline_run_at,
 
         COALESCE(
-            RAW_LOADED_AT,
+            s.RAW_LOADED_AT,
             CURRENT_TIMESTAMP()
         ) AS raw_loaded_at,
 
         NULL AS file_name
 
-    FROM {{ source('sales_db', 'raw_json_data') }},
-    LATERAL FLATTEN(INPUT => SRC:nested:items) f
+    FROM source_data s,
+         LATERAL FLATTEN(INPUT => s.RAW_DATA:nested:items) f
+
 ),
 
 clean_data AS (
@@ -52,6 +65,7 @@ clean_data AS (
       AND created_at IS NOT NULL
       AND price IS NOT NULL
       AND price >= 0
+
 ),
 
 dedup AS (
@@ -62,6 +76,7 @@ dedup AS (
             ORDER BY created_at DESC
         ) AS rn
     FROM clean_data
+
 )
 
 SELECT
