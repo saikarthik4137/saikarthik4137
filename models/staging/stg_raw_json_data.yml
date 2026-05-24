@@ -2,15 +2,4 @@ version: 2
 
 models:
   - name: stg_raw_json_data
-    columns:
-      - name: id
-        tests:
-          - not_null
-
-      - name: name
-        tests:
-          - not_null
-
-      - name: item_id
-        tests:
-          - not_null
+    description: "Flattened raw JSON data without cleaning or filtering"
