@@ -1,6 +1,6 @@
 {{ config(
     materialized='incremental',
-    unique_key='id'
+    unique_key=['id', 'item_id']
 ) }}
 
 WITH source_data AS (
