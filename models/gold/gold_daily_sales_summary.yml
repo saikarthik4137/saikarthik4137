@@ -1,15 +1,26 @@
 version: 2
 
 models:
-
   - name: gold_daily_sales_summary
 
     columns:
 
-      - name: created_at
+      - name: sales_date
+        tests:
+          - not_null
+
+      - name: total_orders
         tests:
           - not_null
 
       - name: total_sales
+        tests:
+          - not_null
+
+      - name: avg_sales
+        tests:
+          - not_null
+
+      - name: total_products
         tests:
           - not_null
