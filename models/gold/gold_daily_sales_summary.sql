@@ -1,19 +1,11 @@
 {{ config(materialized='table') }}
 
-SELECT
-
+select
     created_at,
-
-    COUNT(DISTINCT id) AS total_orders,
-
-    SUM(total_value) AS total_sales,
-
-    AVG(total_value) AS avg_sales,
-
-    MAX(total_value) AS max_sale,
-
-    MIN(total_value) AS min_sale
-
-FROM {{ ref('fct_sales_incremental') }}
-
-GROUP BY created_at
+    count(distinct id) as total_orders,
+    sum(total_value) as total_sales,
+    avg(total_value) as avg_sales,
+    max(total_value) as max_sale,
+    min(total_value) as min_sale
+from {{ ref('fct_sales_incremental') }}
+group by created_at

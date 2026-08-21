@@ -1,11 +1,8 @@
 version: 2
 
 models:
-
   - name: gold_daily_sales_summary
-
     columns:
-
       - name: created_at
         tests:
           - not_null
